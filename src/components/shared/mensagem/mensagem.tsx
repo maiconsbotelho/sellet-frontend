@@ -1,6 +1,7 @@
 interface MensagemProps {
   texto: string;
   tipo: "erro" | "sucesso";
+  claName?: string;
 }
 
 const Mensagem = ({ texto, tipo }: MensagemProps) => {
