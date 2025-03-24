@@ -1,6 +1,6 @@
 import NavBar from "@/components/navBar";
 import FormularioCliente from "@/components/formulario/formularioCliente";
-import Agenda from "@/components/agendamentos";
+import Agenda from "@/components/agenda";
 
 export default function Home() {
   return (
