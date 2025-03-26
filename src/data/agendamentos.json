@@ -1,0 +1,20 @@
+{
+  "agendamentos": [
+    {
+      "id": 1,
+      "horario": "10:00",
+      "data": "2025-03-26",
+      "cliente": "Carla Fernandes",
+      "servico": "Esmaltação",
+      "profissional": "Ana Souza"
+    },
+    {
+      "id": 2,
+      "horario": "11:00",
+      "data": "2025-03-26",
+      "cliente": "Juliana Santos",
+      "servico": "Pedicure Completa",
+      "profissional": "Bruna Lima"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "servicos": [
+    { "id": 1, "nome": "Esmaltação", "duracao": 30, "preco": 25.0 },
+    { "id": 2, "nome": "Pedicure Completa", "duracao": 45, "preco": 40.0 }
+  ]
+}
