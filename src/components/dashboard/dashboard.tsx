@@ -163,10 +163,8 @@
 // }
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { format, startOfWeek } from "date-fns";
-import agendamentosData from "../../data/agendamentos.json";
-import estatisticasData from "../../data/estatisticas.json";
 
 // Tipagem dos agendamentos
 type Agendamento = {
@@ -232,14 +230,36 @@ const AgendamentoList = ({ agendamentos }: { agendamentos: Agendamento[] }) => (
 export default function Dashboard() {
   const [view, setView] = useState<"day" | "week">("week");
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
+  const [estatisticas, setEstatisticas] = useState<Estatisticas>({
+    total: 0,
+    maisAgendado: "",
+    profissionalTop: "",
+  });
+  const [loading, setLoading] = useState(true);
 
-  // Acessando os dados de agendamentos e estatísticas dos arquivos JSON
-  const agendamentos: Agendamento[] = agendamentosData.agendamentos; // Acessando a chave 'agendamentos'
-  const estatisticas: Estatisticas = {
-    total: estatisticasData.estatisticas.totalAgendamentos,
-    maisAgendado: estatisticasData.estatisticas.maisAgendado,
-    profissionalTop: estatisticasData.estatisticas.profissionalTop,
-  };
+  useEffect(() => {
+    // Função para buscar agendamentos e estatísticas da API
+    const fetchData = async () => {
+      try {
+        // Buscando os agendamentos
+        const agendamentosResponse = await fetch("http://localhost:3000/api/agendamentos"); // Substitua pelo seu endpoint real
+        const agendamentosData = await agendamentosResponse.json();
+        setAgendamentos(agendamentosData);
+
+        // Buscando as estatísticas
+        const estatisticasResponse = await fetch("http://localhost:3000/api/estatisticas"); // Substitua pelo seu endpoint real
+        const estatisticasData = await estatisticasResponse.json();
+        setEstatisticas(estatisticasData);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []); // A requisição é feita apenas uma vez, ao montar o componente
 
   const weekDays = useMemo(() => getWeekDays(selectedDate), [selectedDate]);
 
@@ -253,6 +273,8 @@ export default function Dashboard() {
   const handleDaySelect = (day: Date) => {
     setSelectedDate(normalizeDate(day)); // Normalizando a data ao selecionar o dia
   };
+
+  if (loading) return <div>Carregando...</div>;
 
   return (
     <div className="p-6 max-w-2xl mx-auto text-black bg-white shadow-lg rounded-lg">
@@ -279,8 +301,7 @@ export default function Dashboard() {
             type="date"
             value={format(selectedDate, "yyyy-MM-dd")}
             onChange={(e) => {
-              // Em vez de usar new Date() diretamente, garantimos que a data seja interpretada corretamente
-              const newDate = new Date(e.target.value + "T00:00:00"); // Para garantir que a hora seja zero
+              const newDate = new Date(e.target.value + "T00:00:00");
               setSelectedDate(newDate);
             }}
             className="p-2 border border-gray-300 rounded-lg"
