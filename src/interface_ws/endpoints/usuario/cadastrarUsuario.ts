@@ -4,23 +4,26 @@ import { WS_BASE } from "@/interface_ws/ws_link";
 // Types
 import { ErroChamada, SucessoChamada } from "@/util/types";
 
-export interface Cliente {
-  nome: string;
+export interface Usuario {
+  username: string;
   email: string;
-  telefone: string;
+  telefone?: string;
   senha: string;
+  tipo_usuario?: string; // cliente, profissional ou administrador
 }
 
 // Função para cadastrar cliente
-export const cadastroCliente = async (abortController: AbortController, novoCliente: Cliente) => {
+export const cadastrarUsuario = async (abortController: AbortController, novoUsuario: Usuario, token: string) => {
   try {
-    console.log("Enviando dados para o backend:", novoCliente);
-    const resultado: SucessoChamada<Cliente> | ErroChamada = await getFetcher(`${WS_BASE}clientes/`, {
+    console.log("Enviando dados para o backend:", novoUsuario);
+
+    const resultado: SucessoChamada<Usuario> | ErroChamada = await getFetcher(`${WS_BASE}usuarios/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho
       },
-      body: JSON.stringify(novoCliente),
+      body: JSON.stringify(novoUsuario),
       signal: abortController.signal,
     });
 
