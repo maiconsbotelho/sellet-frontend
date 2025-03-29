@@ -1,6 +1,8 @@
+import Header from "@/components/ui/header";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ContextProvider } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,12 +24,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Determinar a franquia com base na URL sem recriar o header
+
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ContextProvider>
+          <div className="relative h-screen flex flex-col">
+            <Header />
+
+            {/* 🔥 Apenas o conteúdo das páginas faz a transição */}
+            <div className="flex-1 overflow-y-auto">{children}</div>
+          </div>
+        </ContextProvider>
       </body>
     </html>
   );

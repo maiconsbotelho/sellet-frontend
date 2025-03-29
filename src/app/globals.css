@@ -3,15 +3,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary-color: #76253c;
+  --bg-primary: #76253c;
   --secondary-color: #fddcd0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #fff;
-    --foreground: #000;
-  }
+.dark {
+  --background: #171717;
+  --foreground: #ffffff;
+  --bg-primary: #fddcd0;
+  --secondary-color: #76253c;
 }
 
 body {

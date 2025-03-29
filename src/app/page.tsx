@@ -1,28 +1,9 @@
-// src/app/page.tsx
-
-"use client"; // Mark this as a client component
-
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // Change this line
-import NavBar from "@/components/navBar";
-import FormularioCliente from "@/components/formulario/formularioCliente";
-import Agenda from "@/components/agenda";
-
-const Page = () => {
-  const router = useRouter();
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    // Some logic here
-  }, []);
-
+export default function HomePage() {
   return (
-    <div>
-      <NavBar />
-      <FormularioCliente />
-      <Agenda />
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-3xl font-bold">Welcome to the Home Page</h1>
+      <p className="mt-4 text-lg">This is the main page of the application.</p>
+      <p className="mt-4 text-lg">You can navigate to different sections from here.</p>
     </div>
   );
-};
-
-export default Page;
+}
