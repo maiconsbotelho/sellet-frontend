@@ -22,7 +22,7 @@ const LoginPage = () => {
     if (res.ok) {
       const data = await res.json();
       localStorage.setItem("token", data.access);
-      router.push("/dashboard"); // Redireciona para o dashboard
+      router.push("/admin"); // Redireciona para o dashboard
     } else {
       alert("Credenciais inválidas!");
     }
