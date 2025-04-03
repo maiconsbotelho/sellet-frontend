@@ -1,11 +1,16 @@
-"use client";
+import HeroBanner from "./heroBanner";
+import NavBar from "../navBar";
+import BoasVindas from "./boasVindas";
+import SessaoServicos from "./sessaoServicos";
+import SessaoProfissional from "./sessaoProfissional";
 
-import Nav from "@/components/ui/nav";
-
-export default function MotivouLevouPage() {
+export default function Home() {
   return (
-    <div className="bg-[#F5F5F5] h-screen flex flex-col mx-4 items-center gap-4">
-      <Nav />
+    <div className="overflow-y-auto">
+      <HeroBanner />
+      <BoasVindas />
+      <SessaoServicos />
+      <SessaoProfissional />
     </div>
   );
 }
