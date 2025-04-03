@@ -7,6 +7,7 @@ export default function SessaoProfissional() {
       <Image src={Profissional1} alt="Profissional" width={200} height={200} className="rounded-lg" />
       <div>
         <h1 className="text-4xl font-bold text-center text-[var(--color-text)]">Profissional</h1>
+        <h2>Fernanda Telles</h2>
         <p className="mt-4 text-lg text-center text-[var(--color-text)]">
           Aqui você pode encontrar informações sobre o profissional.
         </p>
