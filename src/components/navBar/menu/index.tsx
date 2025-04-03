@@ -12,7 +12,7 @@ export default function Menu() {
       {/* Botão visível apenas no mobile */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className=" text-[var(--secondary-color)] text-[23px] rounded lg:hidden"
+        className=" text-[var(--text-secondary)] text-[23px] rounded lg:hidden"
       >
         {isOpen ? <IoClose /> : <GiHamburgerMenu />}
       </button>
@@ -23,7 +23,7 @@ export default function Menu() {
           isOpen ? "block" : "hidden"
         }`}
       >
-        <ul className="flex flex-col bg-white text-[var(--primary-color)] w-screen lg:flex-row lg:gap-4 p-2">
+        <ul className="flex flex-col bg-[var(--bg-secondary)] text-[var(--text-primary)] w-screen lg:flex-row lg:gap-4 p-2">
           <li className="p-2 hover:bg-gray-500 cursor-pointer border-b-2 lg:hover:bg-transparent">Home</li>
           <li className="p-2 hover:bg-gray-500 cursor-pointer lg:hover:bg-transparent">Sobre</li>
           <li className="p-2 hover:bg-gray-500 cursor-pointer lg:hover:bg-transparent">Contato</li>

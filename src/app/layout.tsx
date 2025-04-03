@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ContextProvider } from "./providers";
+import NavBar from "@/components/navBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ContextProvider>
           <div className="relative h-screen flex flex-col">
-            <Header />
+            <NavBar />
 
             {/* 🔥 Apenas o conteúdo das páginas faz a transição */}
             <div className="flex-1 overflow-y-auto">{children}</div>
