@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 
@@ -23,12 +24,12 @@ const UserList: React.FC<ListProps> = ({ title, items, onAdd, onEdit, onDelete }
     <div className="w-full h-full mx-auto p-4 bg-white ">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-bold">{title}</h1>
-        <button
-          onClick={onAdd}
+        <Link
+          href={"/admin/cliente/criar"}
           className="bg-green-500 text-white p-2 rounded-md flex items-center gap-2 hover:bg-green-600"
         >
           <FaPlus /> Adicionar
-        </button>
+        </Link>
       </div>
       <ul className="divide-y divide-gray-200">
         {items.map((item) => (

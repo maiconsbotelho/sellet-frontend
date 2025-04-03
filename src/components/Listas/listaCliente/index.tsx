@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useClientes } from "@/hooks/usuario/useClientes";
 import UserList from "@/components/ui/UserList";
-import { addCliente, editCliente, deleteCliente } from "@/service/clienteService"; // Importa as funções de serviço
+import { addCliente, editCliente, deleteCliente } from "@/service/clienteService";
 
 const ListaCliente: React.FC = () => {
   const router = useRouter();
@@ -18,15 +18,14 @@ const ListaCliente: React.FC = () => {
   }, [router]);
 
   const handleAddCliente = async () => {
-    const novoCliente = {
-      username: "Novo Cliente",
-      email: "novo@cliente.com",
-      telefone: "123456789",
-    };
+    const formData = new FormData();
+    formData.append("username", "Novo Cliente");
+    formData.append("email", "novo@cliente.com");
+    formData.append("telefone", "123456789");
 
     try {
       const token = localStorage.getItem("token") || "";
-      await addCliente(novoCliente, token);
+      await addCliente(formData, token);
       fetchClientes(); // Atualiza a lista de clientes
     } catch (error) {
       console.error(error);
@@ -34,15 +33,14 @@ const ListaCliente: React.FC = () => {
   };
 
   const handleEditCliente = async (id: string) => {
-    const clienteAtualizado = {
-      username: "Cliente Editado",
-      email: "editado@cliente.com",
-      telefone: "987654321",
-    };
+    const formData = new FormData();
+    formData.append("username", "Cliente Editado");
+    formData.append("email", "editado@cliente.com");
+    formData.append("telefone", "987654321");
 
     try {
       const token = localStorage.getItem("token") || "";
-      await editCliente(id, clienteAtualizado, token);
+      await editCliente(id, formData, token);
       fetchClientes(); // Atualiza a lista de clientes
     } catch (error) {
       console.error(error);
