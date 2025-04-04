@@ -6,7 +6,7 @@ import Nail3 from "@/../public/img/nail-3.png";
 
 export default function SessaoServicos() {
   return (
-    <div className="flex flex-col pt-8 items-center justify-center w-full h-full px-4 bg-white">
+    <div className="flex flex-col py-8 items-center justify-center w-full h-full px-4 bg-white">
       <h1 className="text-2xl text-[var(--text-primary)] font-bold text-center">Conheça nossos serviços</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
         <div className="w-full  p-2">

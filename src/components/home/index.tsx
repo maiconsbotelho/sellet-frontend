@@ -3,6 +3,7 @@ import NavBar from "../navBar";
 import BoasVindas from "./boasVindas";
 import SessaoServicos from "./sessaoServicos";
 import SessaoProfissional from "./sessaoProfissional";
+import Footer from "./footer";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <BoasVindas />
       <SessaoServicos />
       <SessaoProfissional />
+      <Footer />
     </div>
   );
 }
