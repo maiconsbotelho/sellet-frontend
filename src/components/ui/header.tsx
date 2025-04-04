@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useModal } from "@/context/modalPerfilContext";
+import { useModal } from "@/data/contexts/modalPerfilContext";
 import ModalPerfil from "@/components/ui/modalPerfil";
 
 import LogoMotivouLevou from "@/../public/logo.svg";

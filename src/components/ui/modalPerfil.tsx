@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useModal } from "@/context/modalPerfilContext";
+import { useModal } from "@/data/contexts/modalPerfilContext";
 
 export default function ModalPerfil() {
   const categorias = ["favorita", "romance", "motivouLevou"];

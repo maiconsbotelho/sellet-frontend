@@ -1,6 +1,0 @@
-{
-  "profissionais": [
-    { "id": 1, "nome": "Ana Souza", "especialidade": "Manicure" },
-    { "id": 2, "nome": "Bruna Lima", "especialidade": "Pedicure" }
-  ]
-}
