@@ -13,6 +13,7 @@ import CampoTelefone from "../shared/formulario/CampoTelefone";
 import CampoTexto from "../shared/formulario/CampoTexto";
 import CampoUf from "../shared/formulario/CampoUf";
 import CampoCidade from "../shared/formulario/campoCidade";
+import { WS_BASE } from "@/interface_ws/ws_link";
 
 import Logo from "../shared/Logo";
 import { useRouter } from "next/navigation"; // Importa o hook para redirecionamento
@@ -50,7 +51,7 @@ export default function FormAuth() {
   const submeter = async () => {
     if (modo === "login") {
       try {
-        const res = await fetch("http://localhost:8000/api/usuarios/login/", {
+        const res = await fetch(`${WS_BASE}usuarios/login/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -60,10 +61,23 @@ export default function FormAuth() {
 
         if (res.ok) {
           const data = await res.json();
-          localStorage.setItem("token", data.access); // Armazena o token no localStorage
+          console.log("Resposta do login:", data); // Log para verificar a resposta do backend
 
-          // Redirecionar com base no tipo de usuário
-          const tipoUsuario = data.tipo_usuario; // Obtém o tipo_usuario diretamente do login
+          // Armazena o token de acesso no localStorage
+          if (data.access) {
+            localStorage.setItem("token", data.access);
+          } else {
+            alert("Erro: Token de acesso não encontrado na resposta.");
+            return;
+          }
+
+          // Opcional: Armazena o token de refresh, se necessário
+          if (data.refresh) {
+            localStorage.setItem("refresh_token", data.refresh);
+          }
+
+          // Redireciona com base no tipo de usuário
+          const tipoUsuario = data.tipo_usuario;
           if (tipoUsuario === "administrador") {
             router.push("/admin");
           } else if (tipoUsuario === "cliente") {
@@ -80,23 +94,26 @@ export default function FormAuth() {
       }
     } else if (modo === "cadastro") {
       try {
-        const res = await fetch("http://localhost:8000/api/usuario/", {
+        const res = await fetch(`${WS_BASE}usuarios/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0MjM5OTIyLCJpYXQiOjE3NDQwNjcxMjIsImp0aSI6ImRlMjhkMDljZWU2MjRlOTFhZmQ1OTkxZWY5NTFmYzE3IiwidXNlcl9pZCI6OH0.ZY8GQhnpdP1N2JfvtT8xODJm99PvZT0TJsxAqqjgY_Y", // Adiciona o token manualmente
           },
           body: JSON.stringify({
-            nome,
+            username: nome, // Mapeia o campo "nome" para "username"
             email,
-            password: senha, // Corrigido para usar "password"
-            cpf,
-            telefone,
-            cep,
-            uf,
-            cidade,
-            bairro,
-            rua,
-            numero,
+            password: senha, // Certifique-se de que o campo "senha" está correto
+            tipo_usuario: "cliente", // Define o tipo de usuário como "cliente"
+            // cpf,
+            // telefone,
+            // cep,
+            // uf,
+            // cidade,
+            // bairro,
+            // rua,
+            // numero,
           }),
         });
 

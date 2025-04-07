@@ -1,7 +1,8 @@
 import { useCallback } from "react";
 import useSessao from "./useSessao";
 
-const URL_BASE = process.env.NEXT_PUBLIC_API_URL;  
+import { getFetcher } from "@/interface_ws/fetcher";
+import { WS_BASE } from "@/interface_ws/ws_link";
 
 export default function useAPI() {
   const { token } = useSessao();
@@ -9,7 +10,7 @@ export default function useAPI() {
   const httpGet = useCallback(
     async function (caminho: string) {
       const uri = caminho.startsWith("/") ? caminho : `/${caminho}`;
-      const urlCompleta = `${URL_BASE}${uri}`;
+      const urlCompleta = `${WS_BASE}${uri}`;
 
       const resposta = await fetch(urlCompleta, {
         headers: {
@@ -24,7 +25,7 @@ export default function useAPI() {
   const httpPost = useCallback(
     async function (caminho: string, body: any) {
       const uri = caminho.startsWith("/") ? caminho : `/${caminho}`;
-      const urlCompleta = `${URL_BASE}${uri}`;
+      const urlCompleta = `${WS_BASE}${uri}`;
 
       const resposta = await fetch(urlCompleta, {
         method: "POST",
