@@ -15,6 +15,7 @@ import CampoUf from "../shared/formulario/CampoUf";
 import CampoCidade from "../shared/formulario/campoCidade";
 
 import Logo from "../shared/Logo";
+import { useRouter } from "next/navigation"; // Importa o hook para redirecionamento
 
 export default function FormAuth() {
   const {
@@ -42,8 +43,75 @@ export default function FormAuth() {
     alterarRua,
     alterarNumero,
     alterarModo,
-    submeter,
   } = useFormAuth();
+
+  const router = useRouter(); // Hook para redirecionamento
+
+  const submeter = async () => {
+    if (modo === "login") {
+      try {
+        const res = await fetch("http://localhost:8000/api/usuarios/login/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password: senha }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem("token", data.access); // Armazena o token no localStorage
+
+          // Redirecionar com base no tipo de usuário
+          const tipoUsuario = data.tipo_usuario; // Obtém o tipo_usuario diretamente do login
+          if (tipoUsuario === "administrador") {
+            router.push("/admin");
+          } else if (tipoUsuario === "cliente") {
+            router.push("/agendamento");
+          } else {
+            alert("Tipo de usuário desconhecido.");
+          }
+        } else {
+          alert("Credenciais inválidas!");
+        }
+      } catch (error) {
+        console.error("Erro ao fazer login:", error);
+        alert("Ocorreu um erro ao tentar fazer login.");
+      }
+    } else if (modo === "cadastro") {
+      try {
+        const res = await fetch("http://localhost:8000/api/usuario/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome,
+            email,
+            password: senha, // Corrigido para usar "password"
+            cpf,
+            telefone,
+            cep,
+            uf,
+            cidade,
+            bairro,
+            rua,
+            numero,
+          }),
+        });
+
+        if (res.ok) {
+          alert("Cadastro realizado com sucesso! Faça login para continuar.");
+          alterarModo(); // Alterna para o modo de login
+        } else {
+          alert("Erro ao realizar cadastro. Verifique os dados e tente novamente.");
+        }
+      } catch (error) {
+        console.error("Erro ao fazer cadastro:", error);
+        alert("Ocorreu um erro ao tentar realizar o cadastro.");
+      }
+    }
+  };
 
   return (
     <div className="h-screen">
@@ -64,93 +132,27 @@ export default function FormAuth() {
           )}
         </div>
         <div className="flex flex-col gap-4 w-80">
-          {modo === "cadastro" && (
-            <CampoTexto
-              placeholder="Nome"
-              value={nome}
-              onChangeText={alterarNome}
-            />
-          )}
-          <CampoEmail
-            placeholder="E-mail"
-            value={email}
-            onChangeText={alterarEmail}
-          />
-          <CampoSenha
-            placeholder="Senha"
-            value={senha}
-            onChangeText={alterarSenha}
-          />
+          {modo === "cadastro" && <CampoTexto placeholder="Nome" value={nome} onChangeText={alterarNome} />}
+          <CampoEmail placeholder="E-mail" value={email} onChangeText={alterarEmail} />
+          <CampoSenha placeholder="Senha" value={senha} onChangeText={alterarSenha} />
 
           {modo === "cadastro" && (
             <>
-              <CampoCPF
-                placeholder="CPF"
-                value={cpf}
-                onChangeText={alterarCPF}
-              />
-              <CampoTelefone
-                placeholder="Telefone"
-                value={telefone}
-                onChangeText={alterarTelefone}
-              />
+              <CampoCPF placeholder="CPF" value={cpf} onChangeText={alterarCPF} />
+              <CampoTelefone placeholder="Telefone" value={telefone} onChangeText={alterarTelefone} />
 
               {/* Endereço */}
-              <CampoCep
-                placeholder="CEP"
-                value={cep}
-                onChangeText={alterarCep}
-              />
+              <CampoCep placeholder="CEP" value={cep} onChangeText={alterarCep} />
 
-              <CampoUf
-                placeholder="UF"
-                value={uf}
-                onChangeText={alterarUf}
-                className="col-span-1"
-              />
+              <CampoUf placeholder="UF" value={uf} onChangeText={alterarUf} className="col-span-1" />
 
-              <CampoCidade
-                placeholder="Cidade"
-                value={cidade}
-                onChangeText={alterarCidade}
-                className="col-span-2"
-              />
+              <CampoCidade placeholder="Cidade" value={cidade} onChangeText={alterarCidade} className="col-span-2" />
 
-              <CampoBairro
-                placeholder="Bairro"
-                value={bairro}
-                onChangeText={alterarBairro}
-              />
-              <CampoRua
-                placeholder="Rua"
-                value={rua}
-                onChangeText={alterarRua}
-                className="col-span-2"
-              />
-              <CampoNumero
-                placeholder="Número"
-                value={numero}
-                onChangeText={alterarNumero}
-              />
+              <CampoBairro placeholder="Bairro" value={bairro} onChangeText={alterarBairro} />
+              <CampoRua placeholder="Rua" value={rua} onChangeText={alterarRua} className="col-span-2" />
+              <CampoNumero placeholder="Número" value={numero} onChangeText={alterarNumero} />
             </>
           )}
-
-          {/*           
-          {modo === "cadastro" && (
-            <CampoCPF
-              placeholder="CPF"
-              value={senha}
-              onChangeText={alterarCPF}
-            />
-          )}
-
-          {modo === "cadastro" && (
-            <CampoTelefone
-              placeholder="Telefone"
-              value={telefone}
-              onChangeText={alterarTelefone}
-            />
-          )} */}
 
           <div className="flex gap-2">
             <button onClick={submeter} className="button flex-1 bg-green-600">
@@ -164,17 +166,11 @@ export default function FormAuth() {
             <button onClick={alterarModo} className="flex-1 button-outline">
               {modo === "login" ? (
                 <div>
-                  Ainda não tem conta?{" "}
-                  <span className="text-yellow-400 font-bold">
-                    Cadastre-se!
-                  </span>
+                  Ainda não tem conta? <span className="text-yellow-400 font-bold">Cadastre-se!</span>
                 </div>
               ) : (
                 <div>
-                  Já tem conta?{" "}
-                  <span className="text-yellow-400 font-bold">
-                    Entre na plataforma!
-                  </span>
+                  Já tem conta? <span className="text-yellow-400 font-bold">Entre na plataforma!</span>
                 </div>
               )}
             </button>
