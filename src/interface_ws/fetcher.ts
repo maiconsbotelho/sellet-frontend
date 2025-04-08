@@ -1,4 +1,4 @@
-// Util
+// utils/fetcher.ts
 import { isJson } from "@/util/helpers";
 
 export const getFetcher = async (url: string, requestConfigs?: RequestInit) => {
@@ -8,13 +8,15 @@ export const getFetcher = async (url: string, requestConfigs?: RequestInit) => {
       mode: "cors",
       cache: "no-cache",
       credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
       redirect: "follow",
       referrerPolicy: "no-referrer",
+      headers: {
+        "Content-Type": "application/json",
+        ...(requestConfigs?.headers || {}),
+      },
       ...requestConfigs,
     });
+
     let resultadoTexto = await response.text();
     resultadoTexto = resultadoTexto.replace(/(\r\n|\n|\r)/gm, "");
 
@@ -32,23 +34,25 @@ export const getFetcher = async (url: string, requestConfigs?: RequestInit) => {
   } catch (e: any) {
     const { signal } = requestConfigs || {};
     const aborted = (signal || {}).aborted;
-    return { temErro: true, MSG: e.message, aborted: aborted == true };
+    return { temErro: true, MSG: e.message, aborted: aborted === true };
   }
 };
 
-export const postFetcher = async (url: string, body: any, hasItems: boolean) => {
+export const postFetcher = async (url: string, body: any, hasItems: boolean, requestConfigs?: RequestInit) => {
   try {
     const response = await fetch(url, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
       redirect: "follow",
       referrerPolicy: "no-referrer",
+      headers: {
+        "Content-Type": "application/json",
+        ...(requestConfigs?.headers || {}),
+      },
       body: JSON.stringify(body),
+      ...requestConfigs,
     });
 
     let resultadoTexto = await response.text();
@@ -64,7 +68,7 @@ export const postFetcher = async (url: string, body: any, hasItems: boolean) => 
 
     const json = JSON.parse(resultadoTexto);
 
-    if (json.ERRO === 1 || json.temErro == true) {
+    if (json.ERRO === 1 || json.temErro === true) {
       console.log(json);
       throw new Error("Erro! Favor tente novamente.");
     }
@@ -72,6 +76,7 @@ export const postFetcher = async (url: string, body: any, hasItems: boolean) => 
     if (hasItems) {
       return { items: json, temErro: false };
     }
+
     return { ...json, temErro: false, ERRO: 0 };
   } catch (e: any) {
     return { temErro: true, mensagem: e.message };

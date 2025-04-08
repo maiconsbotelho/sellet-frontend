@@ -6,6 +6,7 @@ import { ContextProvider } from "./providers";
 import NavBar from "@/components/navBar";
 import { Inter } from "next/font/google";
 import { ProvedorSessao } from "@/data/contexts/ContextoSessao";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body>
         <ContextProvider>
           <ProvedorSessao>
+            <Toaster position="top-center" richColors />
             <div>
               {/* <NavBar /> */}
 

@@ -1,0 +1,58 @@
+[
+  {
+    "profissional": "Ana Souza",
+    "servico": "Manicure",
+    "duracao": 30,
+    "data": "2025-04-08",
+    "hora": "09:00",
+    "cliente": "Juliana Costa"
+  },
+  {
+    "profissional": "Bruna Lima",
+    "servico": "Pedicure",
+    "duracao": 60,
+    "data": "2025-04-08",
+    "hora": "09:30",
+    "cliente": "Carla Mendes"
+  },
+  {
+    "profissional": "Ana Souza",
+    "servico": "Alongamento de Unha",
+    "duracao": 90,
+    "data": "2025-04-08",
+    "hora": "11:00",
+    "cliente": "Fernanda Ribeiro"
+  },
+  {
+    "profissional": "Camila Dias",
+    "servico": "Spa dos Pés",
+    "duracao": 120,
+    "data": "2025-04-09",
+    "hora": "14:00",
+    "cliente": "Larissa Alves"
+  },
+  {
+    "profissional": "Bruna Lima",
+    "servico": "Manicure e Pedicure",
+    "duracao": 90,
+    "data": "2025-04-10",
+    "hora": "15:00",
+    "cliente": "Vanessa Martins"
+  },
+  {
+    "profissional": "Camila Dias",
+    "servico": "Unha em Gel",
+    "duracao": 120,
+    "data": "2025-04-12",
+    "hora": "13:00",
+    "cliente": "Tatiane Souza"
+  },
+  {
+    "profissional": "Ana Souza",
+    "servico": "Manicure",
+    "duracao": 30,
+    "data": "2025-04-12",
+    "hora": "15:30",
+    "cliente": "Patrícia Lima"
+  }
+]

@@ -1,49 +1,58 @@
 export default class DateUtils {
-    static hojeComHoraZerada() {
-        const hoje = new Date()
-        hoje.setHours(0, 0, 0, 0)
-        return hoje
+  static hojeComHoraZerada() {
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    return hoje;
+  }
+
+  static proximosDias(qtde: number, incluirHoje: boolean = true) {
+    const dias = [];
+    const hoje = DateUtils.hojeComHoraZerada();
+
+    if (incluirHoje) {
+      dias.push(hoje);
     }
 
-    static proximosDias(qtde: number, incluirHoje: boolean = true) {
-        const dias = []
-        const hoje = DateUtils.hojeComHoraZerada()
-
-        if (incluirHoje) {
-            dias.push(hoje)
-        }
-
-        for (let i = 1; dias.length < qtde; i++) {
-            const dia = new Date(hoje)
-            dia.setDate(hoje.getDate() + i)
-            dias.push(dia)
-        }
-
-        return dias
+    for (let i = 1; dias.length < qtde; i++) {
+      const dia = new Date(hoje);
+      dia.setDate(hoje.getDate() + i);
+      dias.push(dia);
     }
 
-    static aplicarHorario(data: Date, horario: string) {
-        const novaData = new Date(data)
-        const [hora, minuto] = horario.split(':').map(Number)
-        novaData.setHours(hora, minuto, 0, 0)
-        return novaData
-    }
+    return dias;
+  }
 
-    static formatarData(data: Date, localizacao: string = 'pt-BR'): string {
-        return data.toLocaleDateString(localizacao, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        })
-    }
+  static aplicarHorario(data: Date, horario: string) {
+    const novaData = new Date(data);
+    const [hora, minuto] = horario.split(":").map(Number);
+    novaData.setHours(hora, minuto, 0, 0);
+    return novaData;
+  }
 
-    static formatarDataEHora(data: Date, localizacao: string = 'pt-BR'): string {
-        return data.toLocaleDateString(localizacao, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-        })
-    }
+  static formatarData(data: Date, localizacao: string = "pt-BR"): string {
+    return data.toLocaleDateString(localizacao, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  static formatarDataEHora(data: Date, localizacao: string = "pt-BR"): string {
+    return data.toLocaleDateString(localizacao, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    });
+  }
+
+  static inicioDaSemana(data: Date): Date {
+    const d = new Date(data);
+    d.setHours(0, 0, 0, 0);
+    const diaSemana = d.getDay(); // 0 (domingo) a 6 (sábado)
+    const diff = d.getDate() - diaSemana + (diaSemana === 0 ? -6 : 1); // segunda como início
+    d.setDate(diff);
+    return d;
+  }
 }
