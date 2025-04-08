@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import useAPI from "@/data/hooks/useAPI";
-import useSessao from "@/data/hooks/useSessao";
+// import useSessao from "@/data/hooks/useSessao";
+import { useSessaoStore } from "@/data/stores/useSessaoStore";
 import DateUtils from "@/core/utils/DateUtils";
 import { toast } from "sonner";
 
@@ -18,7 +19,8 @@ interface Agendamento {
 
 export default function DashboardSemanal() {
   const { httpGet, httpPost, httpPut, httpDelete } = useAPI();
-  const { usuario } = useSessao();
+  // const { usuario } = useSessao();
+  const { usuario } = useSessaoStore();
 
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
   const [carregando, setCarregando] = useState(true);

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useAPI from "./useAPI";
-import useSessao from "./useSessao";
+// import useSessao from "./useSessao";
+import { useSessaoStore } from "@/data/stores/useSessaoStore";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function useFormAuth() {
@@ -19,7 +20,8 @@ export default function useFormAuth() {
   const [numero, setNumero] = useState("");
 
   const { httpPost } = useAPI();
-  const { usuario, iniciarSessao } = useSessao();
+  // const { usuario, iniciarSessao } = useSessao();
+  const { usuario, iniciarSessao } = useSessaoStore();
 
   const router = useRouter();
   const param = useSearchParams();

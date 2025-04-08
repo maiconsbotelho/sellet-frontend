@@ -1,10 +1,12 @@
 import { useCallback } from "react";
-import useSessao from "./useSessao";
+// import useSessao from "./useSessao";
+import { useSessaoStore } from "@/data/stores/useSessaoStore";
 import { getFetcher, postFetcher } from "@/interface_ws/fetcher";
 import { WS_BASE } from "@/interface_ws/ws_link";
 
 export default function useAPI() {
-  const { token } = useSessao();
+  // const { token } = useSessao();
+  const { token } = useSessaoStore();
 
   function construirURL(caminho: string) {
     const uri = caminho.startsWith("/") ? caminho : `/${caminho}`;
