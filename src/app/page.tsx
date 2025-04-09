@@ -8,10 +8,10 @@ export default function HomePage() {
   return (
     <div>
       {/* <Home /> */}
-      {/* <Landing /> */}
+      <Landing />
       {/* <Dashboard /> */}
       {/* <SimuladorAgendamento /> */}
-      <DashboardSemanal />
+      {/* <DashboardSemanal /> */}
     </div>
   );
 }

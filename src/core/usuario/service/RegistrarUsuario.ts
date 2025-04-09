@@ -1,26 +1,20 @@
 import CasoDeUso from "../../shared/CasoDeUso";
 import Usuario from "../model/Usuario";
-import ProvedorCriptografia from "../provider/ProvedorCriptografia";
-import RepositorioUsuario from "../provider/RepositorioUsuario";
+import { usuarioService } from "@/service/usuarioService";
 
-// DDD: Application Service = Caso de Uso = Fluxo da Aplicação
 export default class RegistrarUsuario implements CasoDeUso<Usuario, void> {
-  constructor(private readonly repo: RepositorioUsuario, private readonly cripto: ProvedorCriptografia) {}
-
   async executar(usuario: Usuario): Promise<void> {
-    const usuarioExistente = await this.repo.buscarPorEmail(usuario.email);
+    const usuarioExistente = await usuarioService.buscarPorEmail(usuario.email);
 
     if (usuarioExistente) {
       throw new Error("Usuário já existe");
     }
 
-    const senhaCriptografada = await this.cripto.criptografar(usuario.senha);
-    const novoUsuario = {
-      ...usuario,
-      senha: senhaCriptografada,
-      manicure: false,
-    };
+    if (!usuario.password) {
+      throw new Error("Senha é obrigatória");
+    }
 
-    await this.repo.salvar(novoUsuario);
+    // Envia o usuário diretamente ao backend
+    await usuarioService.addUsuario(usuario);
   }
 }

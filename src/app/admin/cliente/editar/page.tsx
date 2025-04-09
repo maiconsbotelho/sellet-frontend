@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { editCliente, getClienteById } from "@/service/clienteService";
+import { editCliente, getClienteById } from "@/service/usuarioService";
 
 const EditarClientePage: React.FC = () => {
   const router = useRouter();

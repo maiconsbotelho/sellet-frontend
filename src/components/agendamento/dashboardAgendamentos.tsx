@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import useAPI from "@/data/hooks/useAPI";
+import useAPI from "@/data/hooks/apiClient";
 // import useSessao from "@/data/hooks/useSessao";
 import { useSessaoStore } from "@/data/stores/useSessaoStore";
 import DateUtils from "@/core/utils/DateUtils";

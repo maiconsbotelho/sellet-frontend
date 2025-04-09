@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useAPI from "./useAPI";
+import useAPI from "./apiClient";
 // import useSessao from "./useSessao";
 import { useSessaoStore } from "@/data/stores/useSessaoStore";
 import { useRouter, useSearchParams } from "next/navigation";

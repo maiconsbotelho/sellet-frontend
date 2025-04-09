@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useClientes } from "@/hooks/usuario/useClientes";
 import UserList from "@/components/ui/UserList";
-import { addCliente, editCliente, deleteCliente } from "@/service/clienteService";
+import { addCliente, editCliente, deleteCliente } from "@/service/usuarioService";
 
 const ListaCliente: React.FC = () => {
   const router = useRouter();

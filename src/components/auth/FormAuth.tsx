@@ -216,7 +216,7 @@ import CampoUf from "../shared/formulario/CampoUf";
 import CampoCidade from "../shared/formulario/campoCidade";
 import Logo from "../shared/Logo";
 import { useRouter } from "next/navigation";
-import useAPI from "@/data/hooks/useAPI";
+import useAPI from "@/data/hooks/apiClient";
 import useSessao from "@/data/hooks/useSessao";
 
 import Cookies from "js-cookie";

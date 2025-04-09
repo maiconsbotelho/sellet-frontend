@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useCallback, useEffect, useState } from "react";
-import useAPI from "../hooks/useAPI";
+import useAPI from "../hooks/apiClient";
 import useSessao from "../hooks/useSessao";
 import AgendaUtils from "@/core/utils/AgendaUtils";
 import DateUtils from "@/core/utils/DateUtils";
@@ -55,7 +55,7 @@ export function ProvedorAgendamento(props: any) {
   }
 
   async function agendar() {
-    await httpPost("/agendamentos", {
+    await httpPost("/agendamento", {
       data,
       usuario,
       profissional,
@@ -79,7 +79,7 @@ export function ProvedorAgendamento(props: any) {
   const obterHorariosOcupados = useCallback(
     async function (dia: string, profissional: Profissional): Promise<string[]> {
       if (!dia || !profissional) return [];
-      const ocupacao = await httpGet(`agendamentos/ocupacao/${profissional!.id}/${dia}`);
+      const ocupacao = await httpGet(`agendamento/ocupacao/${profissional!.id}/${dia}`);
       return ocupacao ?? [];
     },
     [httpGet]

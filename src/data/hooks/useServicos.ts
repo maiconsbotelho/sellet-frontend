@@ -1,7 +1,7 @@
 "use client";
 
 import Servico from "@/core/servico/model/Servico";
-import useAPI from "./useAPI";
+import useAPI from "./apiClient";
 import { useCallback, useEffect, useState } from "react";
 
 // export default function useServicos() {
