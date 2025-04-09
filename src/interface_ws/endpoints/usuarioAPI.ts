@@ -26,9 +26,4 @@ export const usuarioAPI = {
   async deleteUsuario(id: string) {
     return await httpDelete(`/usuarios/${id}`);
   },
-
-  async buscarPorEmail(email: string) {
-    const usuarios = await this.getUsuarios();
-    return usuarios.find((usuario: any) => usuario.email === email) || null;
-  },
 };
