@@ -1,5 +1,5 @@
 import CasoDeUso from "../../shared/CasoDeUso";
-import { usuarioService } from "@/interface_ws/endpoints/usuarioAPI";
+import { usuarioAPI } from "@/interface_ws/endpoints/usuarioAPI";
 
 type Entrada = {
   email: string;
@@ -15,7 +15,7 @@ export default class LoginUsuario implements CasoDeUso<Entrada, Saida> {
     const { email, password } = entrada;
 
     // Envia email e senha diretamente ao backend
-    const resposta = await usuarioService.login({ email, password });
+    const resposta = await usuarioAPI.login({ email, password });
 
     if (!resposta.token) {
       throw new Error("Falha na autenticação");

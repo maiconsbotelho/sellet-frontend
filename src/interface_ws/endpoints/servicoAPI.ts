@@ -2,7 +2,7 @@ import apiClient from "@/interface_ws/apiClient";
 
 const { httpGet, httpPost, httpPut, httpDelete } = apiClient();
 
-export const servicoService = {
+export const servicoAPI = {
   async getServicos() {
     return await httpGet("/servicos");
   },
