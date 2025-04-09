@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useCallback, useEffect, useState } from "react";
-import useAPI from "../hooks/apiClient";
+import useAPI from "../../interface_ws/apiClient";
 import useSessao from "../hooks/useSessao";
 import AgendaUtils from "@/core/utils/AgendaUtils";
 import DateUtils from "@/core/utils/DateUtils";

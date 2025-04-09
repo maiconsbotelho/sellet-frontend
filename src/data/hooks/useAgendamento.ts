@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import ContextoAgendamento from "../contexts/ContextoAgendamento";
 import { useCallback, useEffect, useState } from "react";
-import useAPI from "./apiClient";
+import useAPI from "../../interface_ws/apiClient";
 import { Agendamento } from "@/core";
 
 // const useAgendamento = () => useContext(ContextoAgendamento)

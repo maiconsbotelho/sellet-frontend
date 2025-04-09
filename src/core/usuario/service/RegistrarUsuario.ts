@@ -1,6 +1,6 @@
 import CasoDeUso from "../../shared/CasoDeUso";
 import Usuario from "../model/Usuario";
-import { usuarioService } from "@/service/usuarioService";
+import { usuarioService } from "@/interface_ws/endpoints/usuarioAPI";
 
 export default class RegistrarUsuario implements CasoDeUso<Usuario, void> {
   async executar(usuario: Usuario): Promise<void> {

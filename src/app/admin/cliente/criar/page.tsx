@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { addCliente } from "@/service/usuarioService";
+import { addCliente } from "@/interface_ws/endpoints/usuarioAPI";
 
 const CriarClientePage: React.FC = () => {
   const router = useRouter();

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { editCliente, getClienteById } from "@/service/usuarioService";
+import { editCliente, getClienteById } from "@/interface_ws/endpoints/usuarioAPI";
 
 const EditarClientePage: React.FC = () => {
   const router = useRouter();

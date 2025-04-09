@@ -1,5 +1,5 @@
 import CasoDeUso from "../../shared/CasoDeUso";
-import { usuarioService } from "@/service/usuarioService";
+import { usuarioService } from "@/interface_ws/endpoints/usuarioAPI";
 
 type Entrada = {
   email: string;

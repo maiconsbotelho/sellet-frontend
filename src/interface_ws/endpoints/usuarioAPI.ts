@@ -1,4 +1,4 @@
-import apiClient from "@/data/hooks/apiClient";
+import apiClient from "@/interface_ws/apiClient";
 
 const { httpGet, httpPost, httpPut, httpDelete } = apiClient();
 
