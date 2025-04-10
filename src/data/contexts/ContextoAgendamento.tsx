@@ -28,10 +28,16 @@ export function ProvedorAgendamento(props: any) {
   const [data, setData] = useState<Date | null>(null);
 
   async function agendar() {
+    if (!profissional || !data || servicos.length === 0) {
+      alert("Preencha todos os campos antes de agendar.");
+      return;
+    }
+
     await agendamentoAPI.addAgendamento({
       data,
       profissional,
       servicos,
+      status: "pendente", // Define o status inicial
     });
 
     router.push("/agendamento/sucesso");

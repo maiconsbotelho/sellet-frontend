@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import useAPI from "../../interface_ws/apiClient";
-// import useSessao from "./useSessao";
 import { useSessaoStore } from "@/data/stores/useSessaoStore";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function useFormAuth() {
   const [modo, setModo] = useState<"login" | "cadastro">("login");
 
-  const [nome, setNome] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [cpf, setCPF] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [dataNascimento, setDataNascimento] = useState("");
+  const [endereco, setEndereco] = useState("");
   const [cep, setCep] = useState("");
   const [uf, setUf] = useState("");
   const [cidade, setCidade] = useState("");
@@ -20,7 +22,6 @@ export default function useFormAuth() {
   const [numero, setNumero] = useState("");
 
   const { httpPost } = useAPI();
-  // const { usuario, iniciarSessao } = useSessao();
   const { usuario, iniciarSessao } = useSessaoStore();
 
   const router = useRouter();
@@ -48,20 +49,39 @@ export default function useFormAuth() {
   }
 
   async function login() {
-    const token = await httpPost("auth/login", { email, senha });
+    const token = await httpPost("auth/login", { email, password: senha });
     iniciarSessao(token);
   }
 
   async function registrar() {
-    await httpPost("auth/registrar", { nome, email, senha, cpf, telefone, cep, uf, cidade, bairro, rua, numero });
+    await httpPost("auth/registrar", {
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      password: senha,
+      cpf,
+      telefone,
+      data_nascimento: dataNascimento,
+      endereco,
+      cep,
+      uf,
+      cidade,
+      bairro,
+      rua,
+      numero,
+      tipo_usuario: "cliente",
+    });
   }
 
   function limparFormulario() {
-    setNome("");
+    setFirstName("");
+    setLastName("");
     setEmail("");
     setSenha("");
     setCPF("");
     setTelefone("");
+    setDataNascimento("");
+    setEndereco("");
     setCep("");
     setUf("");
     setCidade("");
@@ -73,22 +93,28 @@ export default function useFormAuth() {
 
   return {
     modo,
-    nome,
+    firstName,
+    lastName,
     email,
     senha,
     cpf,
     telefone,
+    dataNascimento,
+    endereco,
     cep,
     uf,
     cidade,
     bairro,
     rua,
     numero,
-    alterarNome: setNome,
+    alterarFirstName: setFirstName,
+    alterarLastName: setLastName,
     alterarEmail: setEmail,
     alterarSenha: setSenha,
     alterarCPF: setCPF,
     alterarTelefone: setTelefone,
+    alterarDataNascimento: setDataNascimento,
+    alterarEndereco: setEndereco,
     alterarCep: setCep,
     alterarUf: setUf,
     alterarCidade: setCidade,

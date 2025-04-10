@@ -1,6 +1,6 @@
 import useAgendamento from "@/data/hooks/useAgendamento";
 import Servico from "@/core/servico/model/Servico";
-import Profissional from "@/core/profissional/model/Profissional";
+import Usuario from "@/core/usuario/model/Usuario";
 import MoedaUtils from "@/core/utils/MoedaUtils";
 import { IconCalendar } from "@tabler/icons-react";
 
@@ -47,11 +47,13 @@ function SumarioTitulo() {
   );
 }
 
-function SumarioProfissional(props: { profissional: Profissional | null }) {
+function SumarioProfissional(props: { profissional: Usuario | null }) {
   return (
     <div className="flex flex-col gap-3">
       <span className="text-xs uppercase text-zinc-300">Profissional</span>
-      <span className="text-sm text-white">{props.profissional ? props.profissional.nome : "Não selecionado"}</span>
+      <span className="text-sm text-white">
+        {props.profissional ? props.profissional.first_name : "Não selecionado"}
+      </span>
     </div>
   );
 }

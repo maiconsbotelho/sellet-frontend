@@ -1,10 +1,19 @@
 export default interface Usuario {
   id?: number;
-  nome: string;
+  foto_perfil?: string;
+  first_name: string; // Nome
+  last_name: string; // Sobrenome
   email: string;
   password?: string;
-  cpf: string;
-  endereco?: string;
+  cpf?: string;
   telefone?: string;
-  manicure?: boolean;
+  data_nascimento?: string;
+  endereco?: string;
+  cep?: string;
+  uf?: string;
+  cidade?: string;
+  bairro?: string;
+  rua?: string;
+  numero?: string;
+  tipo_usuario?: "cliente" | "profissional" | "administrador";
 }
