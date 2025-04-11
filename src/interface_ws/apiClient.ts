@@ -3,7 +3,7 @@ import { WS_BASE } from "@/interface_ws/ws_link";
 import { useSessaoStore } from "@/data/stores/useSessaoStore";
 
 export default function apiClient() {
-  const { token } = useSessaoStore();
+  const { token } = useSessaoStore(); // Obtém o token do estado global
 
   function construirURL(caminho: string) {
     const uri = caminho.startsWith("/") ? caminho : `/${caminho}`;
@@ -16,7 +16,7 @@ export default function apiClient() {
     };
 
     if (authRequired && token) {
-      headers["Authorization"] = `Bearer ${token}`;
+      headers["Authorization"] = `Bearer ${token}`; // Adiciona o token ao cabeçalho
     }
 
     return headers;

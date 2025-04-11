@@ -24,10 +24,7 @@ export default function Nav() {
           <Image src={`/ui/ranking${path == "/ranking" ? "-selected" : ""}.svg`} width={28} height={24} alt="Ranking" />
           <p className={`text-center ${path == "/ranking" ? "text-principal" : ""}`}>Ranking</p>
         </div>
-        <div
-          onClick={() => router.push("/lucros")}
-          className="grid justify-center justify-items-center content-end gap-1"
-        >
+        <div onClick={() => router.push("/")} className="grid justify-center justify-items-center content-end gap-1">
           <Image src={`/ui/lucros${path == "/lucros" ? "-selected" : ""}.svg`} width={26} height={28} alt="Lucros" />
           <p className={`text-center ${path == "/lucros" ? "text-principal" : ""}`}>Lucros</p>
         </div>

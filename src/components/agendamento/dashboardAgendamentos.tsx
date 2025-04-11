@@ -2,10 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import useAPI from "@/interface_ws/apiClient";
-// import useSessao from "@/data/hooks/useSessao";
-import { useSessaoStore } from "@/data/stores/useSessaoStore";
-import DateUtils from "@/core/utils/DateUtils";
 import { toast } from "sonner";
+
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface Agendamento {
   id: number;
@@ -19,8 +19,17 @@ interface Agendamento {
 
 export default function DashboardSemanal() {
   const { httpGet, httpPost, httpPut, httpDelete } = useAPI();
-  // const { usuario } = useSessao();
-  const { usuario } = useSessaoStore();
+
+  // Calcula os dias da semana com base na data atual
+  const diasDaSemana = useMemo(() => {
+    const hoje = new Date();
+    const inicioDaSemana = new Date(hoje.setDate(hoje.getDate() - hoje.getDay())); // Início da semana (domingo)
+    return Array.from({ length: 7 }, (_, i) => {
+      const dia = new Date(inicioDaSemana);
+      dia.setDate(inicioDaSemana.getDate() + i);
+      return dia;
+    });
+  }, []);
 
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
   const [carregando, setCarregando] = useState(true);
@@ -35,16 +44,6 @@ export default function DashboardSemanal() {
   const [idAgendamento, setIdAgendamento] = useState<number | null>(null);
   const [salvando, setSalvando] = useState(false);
 
-  const semanaAtual = useMemo(() => {
-    const hoje = new Date();
-    const inicio = DateUtils.inicioDaSemana(hoje);
-    return Array.from({ length: 7 }, (_, i) => {
-      const d = new Date(inicio);
-      d.setDate(inicio.getDate() + i);
-      return d;
-    });
-  }, []);
-
   const horarios = useMemo(() => {
     const hs = [];
     for (let h = 8; h <= 21; h++) {
@@ -56,13 +55,31 @@ export default function DashboardSemanal() {
 
   useEffect(() => {
     async function carregarAgendamentos() {
+      if (diasDaSemana.length === 0) {
+        console.warn("diasDaSemana está vazio");
+        return;
+      }
       setCarregando(true);
       setErro(null);
       try {
-        const inicioSemana = semanaAtual[0].toISOString().slice(0, 10);
-        const fimSemana = semanaAtual[6].toISOString().slice(0, 10);
-        const dados = await httpGet(`/agendamentos?inicio=${inicioSemana}&fim=${fimSemana}`);
-        setAgendamentos(dados);
+        console.log("Carregando agendamentos para:", diasDaSemana);
+        const inicio = diasDaSemana[0].toISOString().slice(0, 10);
+        const fim = diasDaSemana[6].toISOString().slice(0, 10);
+        const dados = await httpGet(`/agendamentos?inicio=${inicio}&fim=${fim}`);
+
+        // Transformar os dados para incluir o nome do cliente
+        const agendamentosTransformados = await Promise.all(
+          dados.map(async (agendamento: Agendamento) => {
+            const cliente = await httpGet(`/usuarios/${agendamento.cliente}`);
+            return {
+              ...agendamento,
+              cliente: { nome: `${cliente.first_name} ${cliente.last_name}` },
+            };
+          })
+        );
+
+        console.log("Dados transformados:", agendamentosTransformados);
+        setAgendamentos(agendamentosTransformados);
       } catch (err) {
         console.error("Erro ao carregar agendamentos:", err);
         setErro("Erro ao carregar agendamentos.");
@@ -71,7 +88,7 @@ export default function DashboardSemanal() {
       }
     }
     carregarAgendamentos();
-  }, [httpGet, semanaAtual]);
+  }, [httpGet, diasDaSemana]);
 
   function obterAgendamento(dia: Date, hora: string) {
     const data = dia.toISOString().slice(0, 10);
@@ -117,8 +134,8 @@ export default function DashboardSemanal() {
       setNomeCliente("");
       setDuracao(30);
 
-      const inicio = semanaAtual[0].toISOString().slice(0, 10);
-      const fim = semanaAtual[6].toISOString().slice(0, 10);
+      const inicio = diasDaSemana[0].toISOString().slice(0, 10);
+      const fim = diasDaSemana[6].toISOString().slice(0, 10);
       const dados = await httpGet(`/agendamentos?inicio=${inicio}&fim=${fim}`);
       setAgendamentos(dados);
     } catch (err) {
@@ -142,8 +159,8 @@ export default function DashboardSemanal() {
       setNomeCliente("");
       setDuracao(30);
 
-      const inicio = semanaAtual[0].toISOString().slice(0, 10);
-      const fim = semanaAtual[6].toISOString().slice(0, 10);
+      const inicio = diasDaSemana[0].toISOString().slice(0, 10);
+      const fim = diasDaSemana[6].toISOString().slice(0, 10);
       const dados = await httpGet(`/agendamentos?inicio=${inicio}&fim=${fim}`);
       setAgendamentos(dados);
     } catch (err) {
@@ -169,7 +186,7 @@ export default function DashboardSemanal() {
           <thead>
             <tr>
               <th className="border px-2 py-1 text-left">Horário</th>
-              {semanaAtual.map((dia, i) => (
+              {diasDaSemana.map((dia, i) => (
                 <th key={i} className="border px-2 py-1 text-center capitalize">
                   {new Intl.DateTimeFormat("pt-BR", { weekday: "long" }).format(dia)}
                 </th>
@@ -180,7 +197,7 @@ export default function DashboardSemanal() {
             {horarios.map((hora, i) => (
               <tr key={i}>
                 <td className="border px-2 py-1 text-sm font-medium">{hora}</td>
-                {semanaAtual.map((dia, j) => {
+                {diasDaSemana.map((dia, j) => {
                   const agendamento = obterAgendamento(dia, hora);
                   return (
                     <td
@@ -198,57 +215,6 @@ export default function DashboardSemanal() {
             ))}
           </tbody>
         </table>
-      )}
-
-      {modalAberto && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-96 shadow-lg relative">
-            <h2 className="text-xl font-semibold mb-4">{idAgendamento ? "Editar Agendamento" : "Novo Agendamento"}</h2>
-
-            <p className="mb-2 text-sm">
-              Data: <strong>{diaSelecionado?.toLocaleDateString()}</strong>
-            </p>
-            <p className="mb-4 text-sm">
-              Hora: <strong>{horaSelecionada}</strong>
-            </p>
-
-            <input
-              type="text"
-              className="input mb-3 w-full"
-              placeholder="Nome do cliente"
-              value={nomeCliente}
-              onChange={(e) => setNomeCliente(e.target.value)}
-            />
-
-            <input
-              type="number"
-              className="input mb-3 w-full"
-              placeholder="Duração (min)"
-              value={duracao}
-              onChange={(e) => setDuracao(Number(e.target.value))}
-            />
-
-            <div className="flex justify-between items-center mt-4">
-              {idAgendamento && (
-                <button onClick={cancelarAgendamento} className="button bg-red-600 text-white">
-                  Cancelar Agendamento
-                </button>
-              )}
-              <div className="flex gap-2 ml-auto">
-                <button onClick={() => setModalAberto(false)} className="button-outline">
-                  Fechar
-                </button>
-                <button
-                  onClick={salvarAgendamento}
-                  className={`button bg-green-600 text-white ${salvando ? "opacity-50 cursor-not-allowed" : ""}`}
-                  disabled={salvando}
-                >
-                  {salvando ? "Salvando..." : "Salvar"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       )}
     </div>
   );
